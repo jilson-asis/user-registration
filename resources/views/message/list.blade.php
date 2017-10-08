@@ -10,8 +10,13 @@
                 <ul class="list-group">
                     @foreach ($messages as $message)
                         <li class="list-group-item">
-                            <a href="{{ route('viewMessage', ['tid' => $message->thread_id]) }}">View</a> |
-                            {{ $message->subject }}
+                            <div class="col-xs-9">
+                                <a href="{{ route('viewMessage', ['tid' => $message->thread_id]) }}">{{ $message->subject }}</a>
+                            </div>
+                            <div class="col-xs-3 text-right">
+                                {{ $message->created_at->diffForHumans() }}
+                            </div>
+                            <div class="clearfix"></div>
                         </li>
                     @endforeach
                 </ul>

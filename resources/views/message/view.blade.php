@@ -18,20 +18,31 @@
                 </div>
             @endif
 
-            <div class="panel-heading">{{ $messages->first()->subject }}</div>
+            <div class="panel-heading">
+                <h4>{{ $messages->first()->subject }}</h4>
+            </div>
             <div class="clearfix"></div>
 
             @foreach ($messages as $message)
-                    <div class="panel-body">
+                    <div class="panel-body" style="border-top: 1px solid #eee">
                         <div class="col-xs-12">
-                            {{ $message->sender->name }} : ({{ $message->created_at }})
+                            <div class="col-xs-6">
+                                <strong>{{ $message->sender->name }}</strong> :
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                {{ $message->created_at->diffForHumans() }}
+                            </div>
                         </div>
-                        <div class="col-xs-12">
-                            {{ $message->body }}
+                        <div class="col-xs-12" style="margin-top:20px">
+                            <div class="col-xs-12">
+                                {{ $message->body }}
+                            </div>
                         </div>
                         @if (!is_null($message->attachment))
                             <div class="col-xs-12">
-                                File: {{ $message->attachment->filename }}
+                                <div class="col-xs-12">
+                                    File: {{ $message->attachment->filename }}
+                                </div>
                             </div>
                         @endif
                     </div>
