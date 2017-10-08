@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Attachment;
 use App\Models\Message;
+use Illuminate\Database\Eloquent\Collection;
 
 class MessageRepository
 {
@@ -38,6 +39,34 @@ class MessageRepository
             'attachment_id' => !is_null($attachment) ? $attachment->id : null,
             'thread_id' => $thread_id,
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return Collection
+     */
+    public function getAllThreadById($id)
+    {
+        $threads = $this->model->where('receiver_id', $id)->groupBy('thread_id')->get(['thread_id']);
+
+        $thread_ids = [];
+
+        foreach ($threads as $thread) {
+            $thread_ids[] = $thread->thread_id;
+        }
+
+        return $this->model->whereNotNull('subject')->whereIn('thread_id', $thread_ids)->orderBy('created_at', 'DESC')->get();
+    }
+
+    /**
+     * @param $id
+     * @return Collection
+     */
+    public function getByThreadId($id)
+    {
+        return $this->model->where('thread_id', $id)
+            ->orderBy('created_at')
+            ->get();
     }
 
     /**

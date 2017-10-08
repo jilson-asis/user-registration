@@ -10,14 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function compose()
     {
         return view('message.compose');
+    }
+
+    public function listMessages(MessageRepository $messageRepository)
+    {
+        $messages = $messageRepository->getAllThreadById(Auth::id());
+
+        return view('message.list', ['messages' => $messages]);
+    }
+
+    public function viewMessage(MessageRepository $messageRepository)
+    {
+        $messages = $messageRepository->getByThreadId(request('tid'));
+
+        return view('message.view', ['messages' => $messages]);
     }
 
     public function send(MessageRepository $messageRepository)
@@ -58,13 +68,10 @@ class MessageController extends Controller
     public function reply(MessageRepository $messageRepository)
     {
         $this->validate(request(), [
-            'subject' => 'required',
             'message' => 'required',
-            'to_email' => 'required|exists:users,email',
+            'receiver_id' => 'required|exists:users,id',
             'thread_id' => 'required',
         ]);
-
-        $receiver_id = User::where('email', request('to_email'))->first()->id;
 
         $attachment = null;
 
@@ -73,13 +80,15 @@ class MessageController extends Controller
         }
 
         $messageRepository->createNewMessage(
-            request('subject'),
+            null,
             request('message'),
             Auth::id(),
-            $receiver_id,
+            request('receiver_id'),
             request('thread_id'),
             $attachment
         );
+
+        return back()->with('success', 'Your reply has been sent!');
     }
 
     /**
