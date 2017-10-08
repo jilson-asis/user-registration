@@ -73,6 +73,7 @@
 
         <div class="container">
             <div class="row">
+                @auth
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <ul class="list-group">
@@ -85,6 +86,7 @@
                         </ul>
                     </div>
                 </div>
+                @endauth
                 @yield('content')
             </div>
         </div>
