@@ -71,7 +71,23 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="{{ route('composeMessage') }}">Compose Message</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="{{ route('listMessage') }}">Messages</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                @yield('content')
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

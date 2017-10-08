@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->prefix('message')->group(function () {
+
+    Route::get('/compose', 'MessageController@compose')->name('composeMessage');
+    Route::post('/send', 'MessageController@send')->name('sendMessage');
+    Route::post('/reply', 'MessageController@reply')->name('replyMessage');
+    Route::get('/messages', 'MessageController@list')->name('listMessage');
+    Route::get('/view', 'MessageController@view')->name('viewMessage');
+
+});
