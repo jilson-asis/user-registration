@@ -91,6 +91,13 @@ class MessageController extends Controller
         return back()->with('success', 'Your reply has been sent!');
     }
 
+    public function downloadAttachment()
+    {
+        $attachment = Attachment::findOrFail(request('aid'));
+
+        return response()->download(storage_path('app/' . $attachment->file_path), $attachment->filename);
+    }
+
     /**
      * @param \Illuminate\Http\UploadedFile $attachment
      * @return Attachment
@@ -102,7 +109,7 @@ class MessageController extends Controller
         $file_path = $attachment->storeAs('attachments', $filename);
 
         $attachment = Attachment::create([
-            'filename' => $attachment->getFilename(),
+            'filename' => $attachment->getClientOriginalName(),
             'file_path' => $file_path
         ]);
 

@@ -26,5 +26,6 @@ Route::middleware(['auth'])->prefix('message')->group(function () {
     Route::post('/reply', 'MessageController@reply')->name('replyMessage');
     Route::get('/messages', 'MessageController@listMessages')->name('listMessage');
     Route::get('/view', 'MessageController@viewMessage')->name('viewMessage');
+    Route::get('/download-attachment', 'MessageController@downloadAttachment')->name('downloadAttachment');
 
 });

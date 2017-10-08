@@ -41,7 +41,8 @@
                         @if (!is_null($message->attachment))
                             <div class="col-xs-12">
                                 <div class="col-xs-12">
-                                    File: {{ $message->attachment->filename }}
+                                    File: {{ $message->attachment->filename }} |
+                                    <a href="{{ route('downloadAttachment', ['aid' => $message->attachment_id]) }}">Download</a>
                                 </div>
                             </div>
                         @endif
